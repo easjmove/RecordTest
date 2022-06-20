@@ -11,14 +11,32 @@ namespace RecordTest.Controllers
     public class MiniController : ControllerBase
     {
         private readonly MiniManager _manager = new();
+
         // GET: api/<MiniController>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpGet]
-        public IEnumerable<MiniClass> Get()
+        public ActionResult<IEnumerable<MiniRecord>> Get()
         {
-            return _manager.GetAll();
+            IEnumerable<MiniClass> list = _manager.GetAll();
+            if (list != null && list.Any())
+            {
+                List<MiniRecord> result = new();
+                foreach (MiniClass miniClass in list)
+                {
+                    result.Add(new MiniRecord(miniClass));
+                }
+                return Ok(result);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         // GET api/<MiniController>/5
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public ActionResult<MiniRecord> Get(int id)
         {
@@ -26,11 +44,12 @@ namespace RecordTest.Controllers
             if (foundMini != null)
             {
                 return Ok(new MiniRecord(foundMini));
-            } else
+            }
+            else
             {
                 return NotFound();
             }
-            
+
         }
 
         // POST api/<MiniController>
