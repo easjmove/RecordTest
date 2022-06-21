@@ -1,6 +1,7 @@
 ﻿namespace RecordTest.Models
 {
-    public record MiniRecord //(int id, string faction, string name)
+    public record MiniRecord : IMini
+    //(int id, string faction, string name)
     {
         public int Id { get; init; }
         public string? Faction { get; init; }

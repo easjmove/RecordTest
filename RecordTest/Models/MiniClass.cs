@@ -1,6 +1,6 @@
 ﻿namespace RecordTest.Models
 {
-    public class MiniClass
+    public class MiniClass : IMini
     {
         private static readonly List<String> factions = new()
         {
@@ -9,6 +9,7 @@
         private string? _faction;
 
         public int Id { get; set; }
+
         public string? Faction
         {
             get { return _faction; }
